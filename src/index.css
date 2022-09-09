@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app{
+    background: #654ea3; 
+    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3); 
+    background: linear-gradient(to right, #eaafc8, #654ea3); 
+    color: #808080;
+}
+
+.button-add{
+    bottom: -2rem;
+    left: 40%;
+}
