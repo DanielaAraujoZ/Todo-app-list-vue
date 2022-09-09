@@ -1,12 +1,18 @@
 <template>
     <div class="py-10" v-if="listTasksTodo.length !== 0">
         <div v-for="(itemList, index) in listTasksTodo" :key="index" class="w-4/5 mx-auto h-20 flex items-center justify-between px-3 rounded-2xl shadow-lg shadow-gray-200 text-lg gap-3">
-            <div class="flex flex-row-reverse gap-3">
-                <label for="inputExaple">{{ itemList }}</label>
-                <input type="checkbox" id="inputExample" :value="itemList" v-model="checkedValues" >
-            </div>  
-            <button class="cursor-pinter" @click="deleteTask(index)">
-                <svg fill="#654ea3" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"><path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z"/></svg>
+            <div class="flex flex-row-reverse h-full items-center gap-5">
+                <label :class="{completedTask: itemList.completed}">{{ itemList.task }}</label>
+                <button type="button" class="w-7 h-6" @click="completedTask(index)" :disabled="itemList.completed">
+                    <svg class="w-full" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0"  viewBox="0, 0, 590.088, 522.431">
+                        <g id="layer1">
+                            <path :class="{completed: itemList.completed}" d="M3.179,332.702 L0,331.316 C58.162,299.934 102.129,272.143 165.059,241.357 C196.247,287.963 216.275,322.209 244.491,380.721 C317.446,243.823 400.046,84.169 579.494,-0 C573.704,75.61 572.435,133.976 590.088,199.231 C450.006,268.799 337.296,390.748 256.067,520.027 L254.581,522.431 C179.674,436.203 104.663,377.515 3.179,332.702 z" id="path880"/>
+                        </g>
+                    </svg>
+                </button>
+            </div> 
+            <button :class="{completedDelete: itemList.completed}" @click="deleteTask(index)" :disabled="itemList.completed">
+                <img src="../assets/iconDelete.svg" alt="icon-delete">
             </button>
         </div>
     </div>
@@ -16,19 +22,13 @@
 </template>
 
 <script >
+import { list } from 'postcss'
+
     export default{
         emits:['delete-task', 'completed-tasks'],
         data(){
             return{
-                checkedValues: [],
-            }
-        },
-        watch:{
-            checkedValues(){
-                this.$emit(
-                    'completed-tasks',
-                    this.checkedValues
-                )
+                completedTasks: [],
             }
         },
         props:{
@@ -40,14 +40,36 @@
                     'delete-task',
                     index
                 )
+            },
+            completedTask(index){
+                this.listTasksTodo[index].completed = true;
+                this.completedTasks = this.listTasksTodo.filter((item) => item.completed == true);
+                this.$emit(
+                    'completed-tasks',
+                    this.completedTasks
+                )
             }
         }
     }
 </script>
 
 <style scoped>
-    input:checked{
-        text-decoration: underline;
-        color: red;
+    button svg g path {
+        fill: #e9cfe7
     }
+    button svg g path:hover{
+        fill: #4ade80
+    }
+    .completed{
+        fill: #4ade80
+    }
+    .completedTask{
+        text-decoration: line-through;
+        color: #a6a6a7;
+        font-weight: 600;
+    }
+    .completedDelete{
+        visibility: hidden;
+    }
+
 </style>

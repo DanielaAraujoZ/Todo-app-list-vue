@@ -37,12 +37,16 @@
     },
     methods:{
       addNewTask(taskItem){
-        this.listTasksTodo.push(taskItem);
+        this.listTasksTodo.push({
+          task: taskItem,
+          completed: false
+        });
       },
       deleteTask(index){
         this.listTasksTodo.splice(index,1);
       },
       completedTasks(tasks){
+        console.log(tasks);
         this.listCompletedTasks = tasks
       },
       changePendingTasks(){
