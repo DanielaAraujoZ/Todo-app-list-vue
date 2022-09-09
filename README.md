@@ -5,7 +5,7 @@
 **How to start the project?**
 * Clone this repository
 * In your terminal install all dependencies with "npm install"
-* In your terminal start the server with the command "npm run serve"
+* In your terminal start the server with the command "npm run dev"
 
 **Used tools:**
 * Vite
